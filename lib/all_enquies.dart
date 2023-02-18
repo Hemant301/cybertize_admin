@@ -65,10 +65,14 @@ class AllEnquiry extends StatelessWidget {
                 (index) => Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            //set border radius more than 50% of height and width to make circle
+                          ),
                           elevation: 5,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
+                                horizontal: 15, vertical: 15),
                             child: Column(children: [
                               Row(
                                 mainAxisAlignment:
@@ -135,9 +139,13 @@ class AllEnquiry extends StatelessWidget {
                               // ),
                               Row(
                                 children: const [
-                                  Icon(
-                                    Icons.email_outlined,
-                                    color: Colors.blue,
+                                  CircleAvatar(
+                                    radius: 15,
+                                    backgroundColor: Color(0xff247CFF),
+                                    child: Icon(
+                                      Icons.email_outlined,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 5,
@@ -150,9 +158,13 @@ class AllEnquiry extends StatelessWidget {
                               ),
                               Row(
                                 children: const [
-                                  Icon(
-                                    Icons.call,
-                                    color: Colors.blue,
+                                  CircleAvatar(
+                                    radius: 15,
+                                    backgroundColor: Color(0xff247CFF),
+                                    child: Icon(
+                                      Icons.call,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   SizedBox(
                                     width: 5,

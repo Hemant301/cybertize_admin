@@ -56,6 +56,10 @@ class AddEnquiry extends StatelessWidget {
                 (index) => Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            //set border radius more than 50% of height and width to make circle
+                          ),
                           elevation: 5,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
@@ -324,7 +328,7 @@ class AddEnquiry extends StatelessWidget {
                                   width: MediaQuery.of(context).size.width,
                                   padding:
                                       const EdgeInsets.symmetric(horizontal: 5),
-                                  height: 30,
+                                  height: 39,
                                   // width: 60,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
@@ -343,7 +347,7 @@ class AddEnquiry extends StatelessWidget {
                                   ),
                                   child: const Center(
                                     child: Text(
-                                      "Business Development",
+                                      "Save",
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Colors.white,
