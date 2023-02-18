@@ -1,11 +1,14 @@
 import 'package:cybertize_admin/login.dart';
 import 'package:cybertize_admin/splash.dart';
+import 'package:cybertize_admin/util/storage.dart';
 import 'package:flutter/material.dart';
 
 import 'all_enquies.dart';
 import 'navbar.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await StorageUtil.getInstance();
   runApp(const MyApp());
 }
 

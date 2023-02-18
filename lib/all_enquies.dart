@@ -1,4 +1,5 @@
 import 'package:cybertize_admin/dropdown.dart';
+import 'package:cybertize_admin/util/userCred.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_dropdown/flutter_dropdown.dart'; /
 
@@ -37,20 +38,28 @@ class AllEnquiry extends StatelessWidget {
           ],
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Container(
-              height: 45,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: Colors.red)),
-              child: const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Text(
-                    "Logout",
-                    style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold),
+          InkWell(
+            onTap: () {
+              userCred.logoutUser();
+              Navigator.of(context).pushReplacementNamed(
+                '/login',
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Container(
+                height: 45,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: Colors.red)),
+                child: const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Text(
+                      "Logout",
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
@@ -140,11 +149,12 @@ class AllEnquiry extends StatelessWidget {
                               Row(
                                 children: const [
                                   CircleAvatar(
-                                    radius: 15,
+                                    radius: 12,
                                     backgroundColor: Color(0xff247CFF),
                                     child: Icon(
                                       Icons.email_outlined,
                                       color: Colors.white,
+                                      size: 15,
                                     ),
                                   ),
                                   SizedBox(
@@ -159,11 +169,12 @@ class AllEnquiry extends StatelessWidget {
                               Row(
                                 children: const [
                                   CircleAvatar(
-                                    radius: 15,
+                                    radius: 12,
                                     backgroundColor: Color(0xff247CFF),
                                     child: Icon(
                                       Icons.call,
                                       color: Colors.white,
+                                      size: 15,
                                     ),
                                   ),
                                   SizedBox(
@@ -183,8 +194,6 @@ class AllEnquiry extends StatelessWidget {
                                 height: 15,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Container(
                                     padding: const EdgeInsets.symmetric(
@@ -215,6 +224,9 @@ class AllEnquiry extends StatelessWidget {
                                       ),
                                     ),
                                   ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 5, vertical: 5),
@@ -243,6 +255,9 @@ class AllEnquiry extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
+                                  ),
+                                  const Spacer(
+                                    flex: 1,
                                   ),
                                   const Text(
                                     "32 mins ago",

@@ -1,9 +1,19 @@
+import 'package:cybertize_admin/api/authapi.dart';
 import 'package:cybertize_admin/textfild.dart';
+import 'package:cybertize_admin/util/userCred.dart';
+import 'package:fl_toast/fl_toast.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController emailCon = TextEditingController();
+  TextEditingController passCon = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +38,7 @@ class LoginScreen extends StatelessWidget {
               child: FormTTextFild(
                 icon: Icons.person,
                 hinttext: "Enter email address",
+                controller: emailCon,
               ),
             ),
             const SizedBox(
@@ -37,6 +48,7 @@ class LoginScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               child: FormTTextFild(
                 hinttext: "Enter Password",
+                controller: passCon,
               ),
             ),
             const SizedBox(
@@ -45,8 +57,23 @@ class LoginScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               child: InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, "/navbar");
+                onTap: () async {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  if (emailCon.text == "" || passCon.text == "") {
+                    showTextToast(
+                        text: "Enter email and password", context: context);
+                    return;
+                  }
+                  AuthApi api = AuthApi();
+                  Map data = await api.login(context,
+                      email: emailCon.text, pwd: passCon.text);
+                  if (data['status'].toString() == "200") {
+                    userCred.addUserId(data['user']['_id'].toString());
+
+                    Navigator.pushNamed(context, "/navbar");
+                  } else {
+                    showTextToast(text: data['message'], context: context);
+                  }
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width,

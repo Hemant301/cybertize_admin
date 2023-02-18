@@ -1,3 +1,4 @@
+import 'package:cybertize_admin/util/userCred.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,9 +12,15 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacementNamed(
-        '/login',
-      );
+      if (userCred.isUserLogin()) {
+        Navigator.of(context).pushReplacementNamed(
+          '/navbar',
+        );
+      } else {
+        Navigator.of(context).pushReplacementNamed(
+          '/login',
+        );
+      }
     });
     return Scaffold(
       backgroundColor: Colors.black,

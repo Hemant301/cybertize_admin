@@ -1,4 +1,5 @@
 import 'package:cybertize_admin/textfild.dart';
+import 'package:cybertize_admin/util/userCred.dart';
 import 'package:flutter/material.dart';
 
 import 'dropdown.dart';
@@ -28,20 +29,28 @@ class AddEnquiry extends StatelessWidget {
           ],
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Container(
-              height: 45,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: Colors.red)),
-              child: const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Text(
-                    "Logout",
-                    style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold),
+          InkWell(
+            onTap: () {
+              userCred.logoutUser();
+              Navigator.of(context).pushReplacementNamed(
+                '/login',
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Container(
+                height: 45,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: Colors.red)),
+                child: const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Text(
+                      "Logout",
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
