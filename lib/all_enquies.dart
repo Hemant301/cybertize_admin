@@ -92,7 +92,7 @@ class AllEnquiry extends StatelessWidget {
                                     // width: 60,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
-                                      color: Colors.blue,
+                                      color: const Color(0xff247CFF),
                                       // border: Border.all(
                                       //     color: const Color(0xff8F8F8F), width: 2),
                                       boxShadow: [

@@ -68,7 +68,7 @@ class _NavState extends State<Nav> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           // selectedItemColor: Colors.white,
-          selectedItemColor: const Color.fromARGB(255, 11, 82, 139),
+          selectedItemColor: const Color(0xff247CFF),
           elevation: 0,
           backgroundColor: Colors.white,
           showUnselectedLabels: true,
