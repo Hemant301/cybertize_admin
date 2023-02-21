@@ -39,6 +39,7 @@ dependencies:
   fl_toast: ^3.1.0
   http: ^0.13.5
   shared_preferences: ^2.0.17
+  fluttertoast: ^8.2.1
   # flutter_dropdown: ^1.0.1+hotfix.1
 
 dev_dependencies:

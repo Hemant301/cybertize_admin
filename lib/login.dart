@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cybertize_admin/api/authapi.dart';
 import 'package:cybertize_admin/textfild.dart';
 import 'package:cybertize_admin/util/userCred.dart';
@@ -69,7 +71,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       email: emailCon.text, pwd: passCon.text);
                   if (data['status'].toString() == "200") {
                     userCred.addUserId(data['user']['_id'].toString());
-
+                    userCred.addToken(data['token'].toString());
+                    log("fsefhsefrhjfjh${userCred.getUserId()}");
+                    log(userCred.getToken());
                     Navigator.pushNamed(context, "/navbar");
                   } else {
                     showTextToast(text: data['message'], context: context);

@@ -1,12 +1,26 @@
+import 'dart:developer';
+
+import 'package:cybertize_admin/api/enquaryapi.dart';
 import 'package:cybertize_admin/textfild.dart';
 import 'package:cybertize_admin/util/userCred.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'dropdown.dart';
 
-class AddEnquiry extends StatelessWidget {
+class AddEnquiry extends StatefulWidget {
   const AddEnquiry({super.key});
 
+  @override
+  State<AddEnquiry> createState() => _AddEnquiryState();
+}
+
+class _AddEnquiryState extends State<AddEnquiry> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
+  // TextEditingController passCon = TextEditingController();
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -333,34 +347,118 @@ class AddEnquiry extends StatelessWidget {
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  height: 39,
-                                  // width: 60,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: const Color(0xff247CFF),
-                                    // border: Border.all(
-                                    //     color: const Color(0xff8F8F8F), width: 2),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.1),
-                                        spreadRadius: 1,
-                                        blurRadius: 1,
-                                        offset: const Offset(
-                                            1, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      "Save",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
+                                InkWell(
+                                  onTap: () async {
+                                    log(userCred.getToken());
+                                    if (nameController.text.isEmpty) {
+                                      Fluttertoast.showToast(
+                                          msg: "invalid name !",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+
+                                      return;
+                                    } else if (emailController.text.isEmpty) {
+                                      Fluttertoast.showToast(
+                                          msg: "invalid email !",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+
+                                      return;
+                                    } else if (mobileController.text.isEmpty) {
+                                      Fluttertoast.showToast(
+                                          msg: "invalid moblie !",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+
+                                      return;
+                                    }
+                                    EnquiryApi enquiryApi = EnquiryApi();
+                                    try {
+                                      List data = await enquiryApi.addEnquiry(
+                                          name: nameController.text,
+                                          phone: mobileController.text,
+                                          email: emailController.text,
+                                          source: "dcdc",
+                                          department: "dcdscd");
+
+                                      print(data[0]["response"].runtimeType);
+
+                                      if (data[0]["response"] == "1") {
+                                        Fluttertoast.showToast(
+                                            msg: "dvdsvdv",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 3,
+                                            backgroundColor: Colors.green,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
+
+                                        setState(() {
+                                          loading = false;
+                                        });
+                                      } else {
+                                        setState(() {
+                                          loading = false;
+                                        });
+                                        Fluttertoast.showToast(
+                                            msg: "cdscdscdscds",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.red,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
+                                        setState(() {
+                                          loading = false;
+                                        });
+                                      }
+                                    } catch (e) {}
+                                  },
+                                  // onTap: () {
+                                  //   Navigator.pushNamed(context, "/mobileRegister");
+                                  //   // Navigator.pushNamed(context, "/googleverifiedotp");
+                                  // },,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    height: 39,
+                                    // width: 60,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: const Color(0xff247CFF),
+                                      // border: Border.all(
+                                      //     color: const Color(0xff8F8F8F), width: 2),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.1),
+                                          spreadRadius: 1,
+                                          blurRadius: 1,
+                                          offset: const Offset(1,
+                                              3), // changes position of shadow
+                                        ),
+                                      ],
+                                    ),
+                                    child: const Center(
+                                      child: Text(
+                                        "Save",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                   ),

@@ -1,10 +1,38 @@
+import 'package:cybertize_admin/api/enquaryapi.dart';
 import 'package:cybertize_admin/dropdown.dart';
 import 'package:cybertize_admin/util/userCred.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_dropdown/flutter_dropdown.dart'; /
 
-class AllEnquiry extends StatelessWidget {
+class AllEnquiry extends StatefulWidget {
   const AllEnquiry({super.key});
+
+  @override
+  State<AllEnquiry> createState() => _AllEnquiryState();
+}
+
+class _AllEnquiryState extends State<AllEnquiry> {
+  List allData = [];
+
+  getEnquiry() async {
+    try {
+      EnquiryApi enquiryApi = EnquiryApi();
+      Map data = await enquiryApi.getEnquiry();
+      setState(() {
+        allData = data['result'];
+      });
+      print(allData.toString());
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    getEnquiry();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +98,7 @@ class AllEnquiry extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
             children: List.generate(
-                10,
+                allData.length,
                 (index) => Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
@@ -87,9 +115,9 @@ class AllEnquiry extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  const Text(
-                                    "Niraj Kumar",
-                                    style: TextStyle(
+                                  Text(
+                                    allData[index]['name'].toString(),
+                                    style: const TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 16),
@@ -115,6 +143,8 @@ class AllEnquiry extends StatelessWidget {
                                       ],
                                     ),
                                     child: DropDown(
+                                      // initialValue:
+                                      //     allData[index]['status'].toString(),
                                       showUnderline: false,
                                       items: const [
                                         "Attempted",
@@ -147,8 +177,8 @@ class AllEnquiry extends StatelessWidget {
                               //   height: 8,
                               // ),
                               Row(
-                                children: const [
-                                  CircleAvatar(
+                                children: [
+                                  const CircleAvatar(
                                     radius: 12,
                                     backgroundColor: Color(0xff247CFF),
                                     child: Icon(
@@ -157,18 +187,18 @@ class AllEnquiry extends StatelessWidget {
                                       size: 15,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
-                                  Text("niraj32@gmail.com")
+                                  Text(allData[index]['email'].toString())
                                 ],
                               ),
                               const SizedBox(
                                 height: 5,
                               ),
                               Row(
-                                children: const [
-                                  CircleAvatar(
+                                children: [
+                                  const CircleAvatar(
                                     radius: 12,
                                     backgroundColor: Color(0xff247CFF),
                                     child: Icon(
@@ -177,12 +207,12 @@ class AllEnquiry extends StatelessWidget {
                                       size: 15,
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
-                                    "+91 8804209877",
-                                    style: TextStyle(
+                                    "+91 ${allData[index]['phone'].toString()}",
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -215,9 +245,9 @@ class AllEnquiry extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    child: const Text(
-                                      "Business Development",
-                                      style: TextStyle(
+                                    child: Text(
+                                      allData[index]['department'].toString(),
+                                      style: const TextStyle(
                                         fontSize: 14,
                                         color: Color(0xff247CFF),
                                         fontWeight: FontWeight.bold,
@@ -247,9 +277,9 @@ class AllEnquiry extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    child: const Text(
-                                      "Web",
-                                      style: TextStyle(
+                                    child: Text(
+                                      allData[index]['source'].toString(),
+                                      style: const TextStyle(
                                         fontSize: 14,
                                         color: Color(0xff247CFF),
                                         fontWeight: FontWeight.bold,

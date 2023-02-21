@@ -1,6 +1,3 @@
-
-
-
 import 'package:cybertize_admin/util/storage.dart';
 
 class UserCred {
@@ -18,6 +15,12 @@ class UserCred {
 
   String getUserId() {
     String isActive = StorageUtil.getString('USERID');
+    //print("ff${isActive}ff");
+    return isActive;
+  }
+
+  String getToken() {
+    String isActive = StorageUtil.getString('Token');
     //print("ff${isActive}ff");
     return isActive;
   }
@@ -55,35 +58,39 @@ class UserCred {
   }
 
   void addUserId(String id) {
-    StorageUtil.putString('USERID', '$id');
+    StorageUtil.putString('USERID', id);
+  }
+
+  void addToken(String id) {
+    StorageUtil.putString('Token', id);
   }
 
   void isNewUser(String id) {
-    StorageUtil.putString('NEWUSER', '$id');
+    StorageUtil.putString('NEWUSER', id);
   }
 
   void isVideoNewUser(String id) {
-    StorageUtil.putString('VideoNEWUSER', '$id');
+    StorageUtil.putString('VideoNEWUSER', id);
   }
 
   void addPincode(String pin) {
-    StorageUtil.putString('PINCODE', '$pin');
+    StorageUtil.putString('PINCODE', pin);
   }
 
   void setShop(String info) {
-    StorageUtil.putString('INFO', '$info');
+    StorageUtil.putString('INFO', info);
   }
 
   void setBank(String info) {
-    StorageUtil.putString('INFO', '$info');
+    StorageUtil.putString('INFO', info);
   }
 
   void setSchool(String info) {
-    StorageUtil.putString('INFO', '$info');
+    StorageUtil.putString('INFO', info);
   }
 
   void setCategory(String info) {
-    StorageUtil.putString('INFO', '$info');
+    StorageUtil.putString('INFO', info);
   }
 
   void addPincodeAvail(bool isAvail) {
@@ -99,6 +106,7 @@ class UserCred {
     StorageUtil.putString('USERID', '');
     StorageUtil.putString('PINCODE', '');
     StorageUtil.putString('LAT', '');
+    StorageUtil.putString('Token', '');
     StorageUtil.putString('LNG', '');
     StorageUtil.putString('AVAIL', 'false');
     StorageUtil.clearAll();
