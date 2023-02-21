@@ -160,9 +160,9 @@ class _AllEnquiryState extends State<AllEnquiry> {
                                         print(value);
                                         // _accounttype = value.toString();
                                       },
-                                      hint: const Text(
-                                        "Status",
-                                        style: TextStyle(
+                                      hint: Text(
+                                        allData[index]['status'].toString(),
+                                        style: const TextStyle(
                                             fontSize: 12, color: Colors.white),
                                       ),
                                       icon: const Icon(
@@ -289,9 +289,9 @@ class _AllEnquiryState extends State<AllEnquiry> {
                                   const Spacer(
                                     flex: 1,
                                   ),
-                                  const Text(
-                                    "32 mins ago",
-                                    style: TextStyle(
+                                  Text(
+                                    "${DateTime.parse(allData[index]['createdAt'].toString()).day}/${DateTime.parse(allData[index]['createdAt'].toString()).month}/${DateTime.parse(allData[index]['createdAt'].toString()).year}",
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       color: Colors.grey,
                                       fontWeight: FontWeight.bold,

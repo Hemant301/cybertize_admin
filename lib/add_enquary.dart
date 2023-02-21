@@ -19,6 +19,9 @@ class _AddEnquiryState extends State<AddEnquiry> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
+  String lookingFor = "";
+  String status = "";
+  String source = "";
   // TextEditingController passCon = TextEditingController();
   bool loading = false;
   @override
@@ -108,6 +111,7 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                 FormTTextFild(
                                                   icon: Icons.person,
                                                   hinttext: "Enter Lead name",
+                                                  controller: nameController,
                                                 ),
                                                 const SizedBox(
                                                   height: 10,
@@ -116,6 +120,7 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                   icon: Icons.person,
                                                   hinttext:
                                                       "Enter email address",
+                                                  controller: emailController,
                                                 ),
                                                 const SizedBox(
                                                   height: 10,
@@ -123,6 +128,7 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                 FormTTextFild(
                                                   hinttext:
                                                       "Enter mobile number",
+                                                  controller: mobileController,
                                                 ),
                                                 const SizedBox(
                                                   height: 20,
@@ -166,15 +172,14 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                     showUnderline: false,
                                                     items: const [
                                                       "Business Development",
-                                                      "Business Development",
-                                                      "Business Development",
+                                                      "Development",
+                                                      "Test",
                                                     ],
                                                     onChanged: (value) {
-                                                      // setState(() {
-                                                      //   value == "Reject"
-                                                      //       ? UpdatePopuP(context)
-                                                      //       : Container();
-                                                      // });
+                                                      setState(() {
+                                                        lookingFor =
+                                                            value.toString();
+                                                      });
                                                       print(value);
                                                       // _accounttype = value.toString();
                                                     },
@@ -231,8 +236,8 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                   child: DropDown(
                                                     showUnderline: false,
                                                     items: const [
-                                                      "Website",
-                                                      "Website",
+                                                      "WEB",
+                                                      "APP",
                                                       "Website",
                                                     ],
                                                     onChanged: (value) {
@@ -298,15 +303,14 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                     showUnderline: false,
                                                     items: const [
                                                       "Website",
-                                                      "Website",
-                                                      "Website",
+                                                      "ADs",
+                                                      "Social",
                                                     ],
                                                     onChanged: (value) {
-                                                      // setState(() {
-                                                      //   value == "Reject"
-                                                      //       ? UpdatePopuP(context)
-                                                      //       : Container();
-                                                      // });
+                                                      setState(() {
+                                                        source =
+                                                            value.toString();
+                                                      });
                                                       print(value);
                                                       // _accounttype = value.toString();
                                                     },
@@ -390,8 +394,8 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                           name: nameController.text,
                                           phone: mobileController.text,
                                           email: emailController.text,
-                                          source: "dcdc",
-                                          department: "dcdscd");
+                                          source: source,
+                                          department: lookingFor);
 
                                       print(data[0]["response"].runtimeType);
 

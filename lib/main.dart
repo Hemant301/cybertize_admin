@@ -8,6 +8,7 @@ import 'navbar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await StorageUtil.getInstance();
   runApp(const MyApp());
 }

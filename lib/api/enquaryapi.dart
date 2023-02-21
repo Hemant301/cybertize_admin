@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cybertize_admin/util/userCred.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 const String mainBaseUrl = "http://159.89.160.55:5000/";
@@ -32,23 +34,28 @@ class EnquiryApi {
       {String? name, email, phone, department, source}) async {
     var client = http.Client();
     try {
+      final body = {
+        "name": name,
+        "email": email,
+        "phone": phone,
+        "department": department,
+        "source": source,
+        "user_id": userCred.getUserId()
+      };
+      log(body.toString());
       final response = await client.post(
           Uri.parse("http://159.89.160.55:5000/api/user/Enquiry/add"),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer ${userCred.getToken()}"
           },
-          body: jsonEncode({
-            "name": name,
-            "email": email,
-            "phone": phone,
-            "department": department,
-            "source": source,
-            "user_id": userCred.getUserId()
-          }));
-      if (response.statusCode == 200) {
+          body: jsonEncode(body));
+      if (response.statusCode == 200 || response.statusCode == 201) {
         print(response.body);
         return jsonDecode(response.body) as List;
+      } else if (response.statusCode == 400) {
+        print(response.body);
+        Fluttertoast.showToast(msg: "error ${response.statusCode}");
       } else {
         print('Request failed with status: ${response.statusCode}.');
         throw "Somethiing went wrong";
