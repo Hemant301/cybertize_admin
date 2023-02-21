@@ -31,7 +31,7 @@ class EnquiryApi {
   }
 
   Future<dynamic> addEnquiry(
-      {String? name, email, phone, department, source}) async {
+      {String? name, email, phone, department, source, lookingfor}) async {
     var client = http.Client();
     try {
       final body = {
@@ -39,6 +39,7 @@ class EnquiryApi {
         "email": email,
         "phone": phone,
         "department": department,
+        "looking_for": lookingfor,
         "source": source,
         "user_id": userCred.getUserId()
       };
@@ -52,7 +53,7 @@ class EnquiryApi {
           body: jsonEncode(body));
       if (response.statusCode == 200 || response.statusCode == 201) {
         print(response.body);
-        return jsonDecode(response.body) as List;
+        return jsonDecode(response.body) as Map;
       } else if (response.statusCode == 400) {
         print(response.body);
         Fluttertoast.showToast(msg: "error ${response.statusCode}");

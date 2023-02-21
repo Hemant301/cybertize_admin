@@ -241,11 +241,10 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                       "Website",
                                                     ],
                                                     onChanged: (value) {
-                                                      // setState(() {
-                                                      //   value == "Reject"
-                                                      //       ? UpdatePopuP(context)
-                                                      //       : Container();
-                                                      // });
+                                                      setState(() {
+                                                        status =
+                                                            value.toString();
+                                                      });
                                                       print(value);
                                                       // _accounttype = value.toString();
                                                     },
@@ -390,18 +389,17 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                     }
                                     EnquiryApi enquiryApi = EnquiryApi();
                                     try {
-                                      List data = await enquiryApi.addEnquiry(
+                                      Map data = await enquiryApi.addEnquiry(
                                           name: nameController.text,
                                           phone: mobileController.text,
                                           email: emailController.text,
-                                          source: source,
-                                          department: lookingFor);
+                                          department: source,
+                                          source: status,
+                                          lookingfor: lookingFor);
 
-                                      print(data[0]["response"].runtimeType);
-
-                                      if (data[0]["response"] == "1") {
+                                      if (data["status"].toString() == "200") {
                                         Fluttertoast.showToast(
-                                            msg: "dvdsvdv",
+                                            msg: data["msg"],
                                             toastLength: Toast.LENGTH_SHORT,
                                             gravity: ToastGravity.BOTTOM,
                                             timeInSecForIosWeb: 3,
@@ -410,6 +408,10 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                             fontSize: 16.0);
 
                                         setState(() {
+                                          nameController.text = "";
+                                          emailController.text = "";
+                                          mobileController.text = "";
+
                                           loading = false;
                                         });
                                       } else {
