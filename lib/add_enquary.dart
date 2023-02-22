@@ -350,125 +350,142 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                InkWell(
-                                  onTap: () async {
-                                    log(userCred.getToken());
-                                    if (nameController.text.isEmpty) {
-                                      Fluttertoast.showToast(
-                                          msg: "invalid name !",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.red,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
+                                loading == true
+                                    ? const Center(
+                                        child: CircularProgressIndicator())
+                                    : InkWell(
+                                        onTap: () async {
+                                          log(userCred.getToken());
+                                          if (nameController.text.isEmpty) {
+                                            Fluttertoast.showToast(
+                                                msg: "invalid name !",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
 
-                                      return;
-                                    } else if (emailController.text.isEmpty) {
-                                      Fluttertoast.showToast(
-                                          msg: "invalid email !",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.red,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
+                                            return;
+                                          } else if (emailController
+                                              .text.isEmpty) {
+                                            Fluttertoast.showToast(
+                                                msg: "invalid email !",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
 
-                                      return;
-                                    } else if (mobileController.text.isEmpty) {
-                                      Fluttertoast.showToast(
-                                          msg: "invalid moblie !",
-                                          toastLength: Toast.LENGTH_SHORT,
-                                          gravity: ToastGravity.BOTTOM,
-                                          timeInSecForIosWeb: 1,
-                                          backgroundColor: Colors.red,
-                                          textColor: Colors.white,
-                                          fontSize: 16.0);
+                                            return;
+                                          } else if (mobileController
+                                              .text.isEmpty) {
+                                            Fluttertoast.showToast(
+                                                msg: "invalid moblie !",
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                timeInSecForIosWeb: 1,
+                                                backgroundColor: Colors.red,
+                                                textColor: Colors.white,
+                                                fontSize: 16.0);
 
-                                      return;
-                                    }
-                                    EnquiryApi enquiryApi = EnquiryApi();
-                                    try {
-                                      Map data = await enquiryApi.addEnquiry(
-                                          name: nameController.text,
-                                          phone: mobileController.text,
-                                          email: emailController.text,
-                                          department: source,
-                                          source: status,
-                                          lookingfor: lookingFor);
+                                            return;
+                                          } else {
+                                            setState(() {
+                                              loading == true;
+                                            });
+                                          }
+                                          EnquiryApi enquiryApi = EnquiryApi();
+                                          try {
+                                            Map data =
+                                                await enquiryApi.addEnquiry(
+                                                    name: nameController.text,
+                                                    phone:
+                                                        mobileController.text,
+                                                    email: emailController.text,
+                                                    department: source,
+                                                    source: status,
+                                                    lookingfor: lookingFor);
 
-                                      if (data["status"].toString() == "200") {
-                                        Fluttertoast.showToast(
-                                            msg: data["msg"],
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.BOTTOM,
-                                            timeInSecForIosWeb: 3,
-                                            backgroundColor: Colors.green,
-                                            textColor: Colors.white,
-                                            fontSize: 16.0);
+                                            if (data["status"].toString() ==
+                                                "200") {
+                                              Fluttertoast.showToast(
+                                                  msg: data["msg"],
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 3,
+                                                  backgroundColor: Colors.green,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
 
-                                        setState(() {
-                                          nameController.text = "";
-                                          emailController.text = "";
-                                          mobileController.text = "";
+                                              setState(() {
+                                                nameController.text = "";
+                                                emailController.text = "";
+                                                mobileController.text = "";
 
-                                          loading = false;
-                                        });
-                                      } else {
-                                        setState(() {
-                                          loading = false;
-                                        });
-                                        Fluttertoast.showToast(
-                                            msg: "cdscdscdscds",
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.BOTTOM,
-                                            timeInSecForIosWeb: 1,
-                                            backgroundColor: Colors.red,
-                                            textColor: Colors.white,
-                                            fontSize: 16.0);
-                                        setState(() {
-                                          loading = false;
-                                        });
-                                      }
-                                    } catch (e) {}
-                                  },
-                                  // onTap: () {
-                                  //   Navigator.pushNamed(context, "/mobileRegister");
-                                  //   // Navigator.pushNamed(context, "/googleverifiedotp");
-                                  // },,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5),
-                                    height: 39,
-                                    // width: 60,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: const Color(0xff247CFF),
-                                      // border: Border.all(
-                                      //     color: const Color(0xff8F8F8F), width: 2),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.1),
-                                          spreadRadius: 1,
-                                          blurRadius: 1,
-                                          offset: const Offset(1,
-                                              3), // changes position of shadow
+                                                loading = false;
+                                              });
+                                            } else {
+                                              setState(() {
+                                                loading = false;
+                                              });
+                                              Fluttertoast.showToast(
+                                                  msg: "cdscdscdscds",
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.red,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+                                              setState(() {
+                                                loading = false;
+                                              });
+                                            }
+                                          } catch (e) {}
+                                        },
+                                        // onTap: () {
+                                        //   Navigator.pushNamed(context, "/mobileRegister");
+                                        //   // Navigator.pushNamed(context, "/googleverifiedotp");
+                                        // },,
+                                        child: Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          height: 39,
+                                          // width: 60,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            color: const Color(0xff247CFF),
+                                            // border: Border.all(
+                                            //     color: const Color(0xff8F8F8F), width: 2),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.1),
+                                                spreadRadius: 1,
+                                                blurRadius: 1,
+                                                offset: const Offset(1,
+                                                    3), // changes position of shadow
+                                              ),
+                                            ],
+                                          ),
+                                          child: const Center(
+                                            child: Text(
+                                              "Save",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                    child: const Center(
-                                      child: Text(
-                                        "Save",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )
+                                      )
                               ],
                             ),
                           )),

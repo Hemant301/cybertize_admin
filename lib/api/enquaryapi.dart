@@ -68,4 +68,38 @@ class EnquiryApi {
       client.close();
     }
   }
+
+  Future<dynamic> addEnquiryStatus({String? enquiry_id, status}) async {
+    var client = http.Client();
+    try {
+      final body = {
+        "user_id": userCred.getUserId(),
+        "enquiry_id": enquiry_id,
+        "status": status
+      };
+      log(body.toString());
+      final response = await client.post(
+          Uri.parse("http://159.89.160.55:5000/api/user/Enquiry/update"),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer ${userCred.getToken()}"
+          },
+          body: jsonEncode(body));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print(response.body);
+        return jsonDecode(response.body) as Map;
+      } else if (response.statusCode == 400) {
+        print(response.body);
+        Fluttertoast.showToast(msg: "error ${response.statusCode}");
+      } else {
+        print('Request failed with status: ${response.statusCode}.');
+        throw "Somethiing went wrong";
+      }
+    } catch (e) {
+      print(e);
+      throw "Somethiing went wrong";
+    } finally {
+      client.close();
+    }
+  }
 }
