@@ -75,17 +75,17 @@ class _AllEnquiryState extends State<AllEnquiry> {
         title: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
+          children: [
+            const Text(
               "Enquirers",
               style: TextStyle(color: Colors.black),
             ),
-            SizedBox(
+            const SizedBox(
               height: 2,
             ),
             Text(
-              "total 45 entires",
-              style: TextStyle(
+              "total ${allData.length} entires",
+              style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 10,
               ),
@@ -184,6 +184,17 @@ class _AllEnquiryState extends State<AllEnquiry> {
                                           ],
                                           onChanged: (value) {
                                             setState(() {
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      "Status Update Successfully",
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor: Colors.green,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
+
                                               updateEnq(
                                                   value.toString(),
                                                   allData[index]['_id']

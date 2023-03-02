@@ -144,8 +144,9 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                 ),
                                                 Container(
                                                   padding: const EdgeInsets
-                                                      .symmetric(horizontal: 5),
-                                                  height: 30,
+                                                          .symmetric(
+                                                      horizontal: 10),
+                                                  height: 50,
                                                   // width: 60,
                                                   width: MediaQuery.of(context)
                                                       .size
@@ -153,19 +154,20 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            5),
-                                                    color: Colors.grey.shade200,
+                                                            10),
+                                                    color: const Color.fromARGB(
+                                                        255, 240, 240, 240),
                                                     // border: Border.all(
                                                     //     color: const Color(0xff8F8F8F), width: 2),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.1),
-                                                        spreadRadius: 1,
-                                                        blurRadius: 1,
-                                                        offset: const Offset(1,
-                                                            3), // changes position of shadow
-                                                      ),
+                                                    boxShadow: const [
+                                                      // BoxShadow(
+                                                      //   color: Colors.grey
+                                                      //       .withOpacity(0.1),
+                                                      //   spreadRadius: 1,
+                                                      //   blurRadius: 1,
+                                                      //   offset: const Offset(1,
+                                                      //       3), // changes position of shadow
+                                                      // ),
                                                     ],
                                                   ),
                                                   child: DropDown(
@@ -184,10 +186,12 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                       // _accounttype = value.toString();
                                                     },
                                                     hint: const Text(
-                                                      "Status",
+                                                      "Looking for",
                                                       style: TextStyle(
                                                           fontSize: 12,
-                                                          color: Colors.black),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.grey),
                                                     ),
                                                     icon: const Icon(
                                                       Icons.expand_more,
@@ -209,8 +213,9 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                 ),
                                                 Container(
                                                   padding: const EdgeInsets
-                                                      .symmetric(horizontal: 5),
-                                                  height: 30,
+                                                          .symmetric(
+                                                      horizontal: 10),
+                                                  height: 50,
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
@@ -218,20 +223,11 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            5),
-                                                    color: Colors.grey.shade200,
+                                                            10),
+                                                    color: const Color.fromARGB(
+                                                        255, 240, 240, 240),
                                                     // border: Border.all(
                                                     //     color: const Color(0xff8F8F8F), width: 2),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.1),
-                                                        spreadRadius: 1,
-                                                        blurRadius: 1,
-                                                        offset: const Offset(1,
-                                                            3), // changes position of shadow
-                                                      ),
-                                                    ],
                                                   ),
                                                   child: DropDown(
                                                     showUnderline: false,
@@ -249,10 +245,12 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                       // _accounttype = value.toString();
                                                     },
                                                     hint: const Text(
-                                                      "Status",
+                                                      "for",
                                                       style: TextStyle(
                                                           fontSize: 12,
-                                                          color: Colors.black),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.grey),
                                                     ),
                                                     icon: const Icon(
                                                       Icons.expand_more,
@@ -274,8 +272,9 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                 ),
                                                 Container(
                                                   padding: const EdgeInsets
-                                                      .symmetric(horizontal: 5),
-                                                  height: 30,
+                                                          .symmetric(
+                                                      horizontal: 10),
+                                                  height: 50,
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
@@ -283,20 +282,11 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            5),
-                                                    color: Colors.grey.shade200,
+                                                            10),
+                                                    color: const Color.fromARGB(
+                                                        255, 240, 240, 240),
                                                     // border: Border.all(
                                                     //     color: const Color(0xff8F8F8F), width: 2),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color: Colors.grey
-                                                            .withOpacity(0.1),
-                                                        spreadRadius: 1,
-                                                        blurRadius: 1,
-                                                        offset: const Offset(1,
-                                                            3), // changes position of shadow
-                                                      ),
-                                                    ],
                                                   ),
                                                   child: DropDown(
                                                     showUnderline: false,
@@ -314,10 +304,12 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                       // _accounttype = value.toString();
                                                     },
                                                     hint: const Text(
-                                                      "Status",
+                                                      "Source",
                                                       style: TextStyle(
                                                           fontSize: 12,
-                                                          color: Colors.black),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.grey),
                                                     ),
                                                     icon: const Icon(
                                                       Icons.expand_more,
@@ -391,11 +383,10 @@ class _AddEnquiryState extends State<AddEnquiry> {
                                                 fontSize: 16.0);
 
                                             return;
-                                          } else {
-                                            setState(() {
-                                              loading == true;
-                                            });
                                           }
+                                          setState(() {
+                                            loading = true;
+                                          });
                                           EnquiryApi enquiryApi = EnquiryApi();
                                           try {
                                             Map data =
