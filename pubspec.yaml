@@ -42,7 +42,15 @@ dependencies:
   fluttertoast: ^8.2.1
   shimmer: ^2.0.0
   rxdart: ^0.27.7
+  firebase_messaging: ^11.1.0
+  flutter_local_notifications: ^9.1.4
+  path_provider: ^2.0.11 
+  path_provider_android: ^2.0.12
+  path_provider_ios: ^2.0.8
   # flutter_dropdown: ^1.0.1+hotfix.1
+
+dependency_overrides:
+  firebase_core_platform_interface: 4.5.1
 
 dev_dependencies:
   flutter_test:

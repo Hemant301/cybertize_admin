@@ -1,6 +1,5 @@
 import 'package:cybertize_admin/api/enquaryapi.dart';
 import 'package:cybertize_admin/dropdown.dart';
-import 'package:cybertize_admin/util/simmer.dart';
 import 'package:cybertize_admin/util/userCred.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -34,7 +33,7 @@ class _AllEnquiryState extends State<AllEnquiry> {
       EnquiryApi enquiryApi = EnquiryApi();
       Map data = await enquiryApi.addEnquiryStatus(
           status: status, enquiry_id: enquiryId);
-      if (data['status'].toString() == 200) {
+      if (data['status'].toString() == "200") {
         Fluttertoast.showToast(
             msg: data["msg"],
             toastLength: Toast.LENGTH_SHORT,
@@ -59,6 +58,15 @@ class _AllEnquiryState extends State<AllEnquiry> {
     getEnquiry();
     // TODO: implement initState
     super.initState();
+  }
+
+  Future<void> _pullRefresh() async {
+    print("refresh");
+    setState(() {
+      allData.clear();
+      getEnquiry();
+    });
+    Fluttertoast.showToast(msg: "Refreshing");
   }
 
   @override
@@ -122,240 +130,237 @@ class _AllEnquiryState extends State<AllEnquiry> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: allData.isEmpty
-            ? const CommityMembrDitelSimer()
-            : Column(
-                children: List.generate(
-                    allData.length,
-                    (index) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                                //set border radius more than 50% of height and width to make circle
-                              ),
-                              elevation: 5,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 15),
-                                child: Column(children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        allData[index]['name'].toString(),
-                                        style: const TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        height: 30,
-                                        // width: 60,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          color: const Color(0xff247CFF),
-                                          // border: Border.all(
-                                          //     color: const Color(0xff8F8F8F), width: 2),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.1),
-                                              spreadRadius: 1,
-                                              blurRadius: 1,
-                                              offset: const Offset(1,
-                                                  3), // changes position of shadow
-                                            ),
-                                          ],
-                                        ),
-                                        child: DropDown(
-                                          // initialValue:
-                                          //     allData[index]['status'].toString(),
-                                          showUnderline: false,
-                                          items: const [
-                                            "Attempted",
-                                            "Approved",
-                                            "pending",
-                                          ],
-                                          onChanged: (value) {
-                                            setState(() {
-                                              Fluttertoast.showToast(
-                                                  msg:
-                                                      "Status Update Successfully",
-                                                  toastLength:
-                                                      Toast.LENGTH_SHORT,
-                                                  gravity: ToastGravity.BOTTOM,
-                                                  timeInSecForIosWeb: 1,
-                                                  backgroundColor: Colors.green,
-                                                  textColor: Colors.white,
-                                                  fontSize: 16.0);
-
-                                              updateEnq(
-                                                  value.toString(),
-                                                  allData[index]['_id']
-                                                      .toString());
-                                            });
-                                            // setState(() {
-                                            //   value == "Reject"
-                                            //       ? UpdatePopuP(context)
-                                            //       : Container();
-                                            // });
-                                            print(value);
-                                            // _accounttype = value.toString();
-                                          },
-                                          hint: Text(
-                                            allData[index]['status'].toString(),
-                                            style: const TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.white),
-                                          ),
-                                          icon: const Icon(
-                                            Icons.expand_more,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  // const SizedBox(
-                                  //   height: 8,
-                                  // ),
-                                  Row(
-                                    children: [
-                                      const CircleAvatar(
-                                        radius: 12,
-                                        backgroundColor: Color(0xff247CFF),
-                                        child: Icon(
-                                          Icons.email_outlined,
-                                          color: Colors.white,
-                                          size: 15,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(allData[index]['email'].toString())
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      const CircleAvatar(
-                                        radius: 12,
-                                        backgroundColor: Color(0xff247CFF),
-                                        child: Icon(
-                                          Icons.call,
-                                          color: Colors.white,
-                                          size: 15,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "+91 ${allData[index]['phone'].toString()}",
-                                        style: const TextStyle(
-                                          fontSize: 14,
+      body: RefreshIndicator(
+        onRefresh: _pullRefresh,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: ListView(
+              // physics: const ScrollPhysics(),
+              shrinkWrap: false,
+              children: List.generate(
+                  allData.length,
+                  (index) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              //set border radius more than 50% of height and width to make circle
+                            ),
+                            elevation: 5,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 15),
+                              child: Column(children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      allData[index]['name'].toString(),
+                                      style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 15,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5, vertical: 5),
-
-                                        // width: 60,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          color: const Color(0xffF0F0F0),
-                                          // border: Border.all(
-                                          //     color: const Color(0xff8F8F8F), width: 2),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.1),
-                                              spreadRadius: 1,
-                                              blurRadius: 1,
-                                              offset: const Offset(1,
-                                                  3), // changes position of shadow
-                                            ),
-                                          ],
-                                        ),
-                                        child: Text(
-                                          allData[index]['department']
-                                              .toString(),
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff247CFF),
-                                            fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5),
+                                      height: 30,
+                                      // width: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: const Color(0xff247CFF),
+                                        // border: Border.all(
+                                        //     color: const Color(0xff8F8F8F), width: 2),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.1),
+                                            spreadRadius: 1,
+                                            blurRadius: 1,
+                                            offset: const Offset(1,
+                                                3), // changes position of shadow
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5, vertical: 5),
+                                      child: DropDown(
+                                        // initialValue:
+                                        //     allData[index]['status'].toString(),
+                                        showUnderline: false,
+                                        items: const [
+                                          "Attempted",
+                                          "Approved",
+                                          "pending",
+                                        ],
+                                        onChanged: (value) {
+                                          setState(() {
+                                            // Fluttertoast.showToast(
+                                            //     msg:
+                                            //         "Status Update Successfully",
+                                            //     toastLength: Toast.LENGTH_SHORT,
+                                            //     gravity: ToastGravity.BOTTOM,
+                                            //     timeInSecForIosWeb: 1,
+                                            //     backgroundColor: Colors.green,
+                                            //     textColor: Colors.white,
+                                            //     fontSize: 16.0);
 
-                                        // width: 60,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          color: const Color(0xffF0F0F0),
-                                          // border: Border.all(
-                                          //     color: const Color(0xff8F8F8F), width: 2),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.1),
-                                              spreadRadius: 1,
-                                              blurRadius: 1,
-                                              offset: const Offset(1,
-                                                  3), // changes position of shadow
-                                            ),
-                                          ],
-                                        ),
-                                        child: Text(
-                                          allData[index]['source'].toString(),
+                                            updateEnq(
+                                                value.toString(),
+                                                allData[index]['_id']
+                                                    .toString());
+                                          });
+                                          // setState(() {
+                                          //   value == "Reject"
+                                          //       ? UpdatePopuP(context)
+                                          //       : Container();
+                                          // });
+                                          print(value);
+                                          // _accounttype = value.toString();
+                                        },
+                                        hint: Text(
+                                          allData[index]['status'].toString(),
                                           style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xff247CFF),
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                              fontSize: 12,
+                                              color: Colors.white),
+                                        ),
+                                        icon: const Icon(
+                                          Icons.expand_more,
+                                          color: Colors.white,
                                         ),
                                       ),
-                                      const Spacer(
-                                        flex: 1,
+                                    ),
+                                  ],
+                                ),
+                                // const SizedBox(
+                                //   height: 8,
+                                // ),
+                                Row(
+                                  children: [
+                                    const CircleAvatar(
+                                      radius: 12,
+                                      backgroundColor: Color(0xff247CFF),
+                                      child: Icon(
+                                        Icons.email_outlined,
+                                        color: Colors.white,
+                                        size: 15,
                                       ),
-                                      Text(
-                                        "${DateTime.parse(allData[index]['createdAt'].toString()).day}/${DateTime.parse(allData[index]['createdAt'].toString()).month}/${DateTime.parse(allData[index]['createdAt'].toString()).year}",
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(allData[index]['email'].toString())
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    const CircleAvatar(
+                                      radius: 12,
+                                      backgroundColor: Color(0xff247CFF),
+                                      child: Icon(
+                                        Icons.call,
+                                        color: Colors.white,
+                                        size: 15,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "+91 ${allData[index]['phone'].toString()}",
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5, vertical: 5),
+
+                                      // width: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: const Color(0xffF0F0F0),
+                                        // border: Border.all(
+                                        //     color: const Color(0xff8F8F8F), width: 2),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.1),
+                                            spreadRadius: 1,
+                                            blurRadius: 1,
+                                            offset: const Offset(1,
+                                                3), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                      child: Text(
+                                        allData[index]['department'].toString(),
                                         style: const TextStyle(
                                           fontSize: 14,
-                                          color: Colors.grey,
+                                          color: Color(0xff247CFF),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ],
-                                  )
-                                ]),
-                              )),
-                        ))),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5, vertical: 5),
+
+                                      // width: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: const Color(0xffF0F0F0),
+                                        // border: Border.all(
+                                        //     color: const Color(0xff8F8F8F), width: 2),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey.withOpacity(0.1),
+                                            spreadRadius: 1,
+                                            blurRadius: 1,
+                                            offset: const Offset(1,
+                                                3), // changes position of shadow
+                                          ),
+                                        ],
+                                      ),
+                                      child: Text(
+                                        allData[index]['source'].toString(),
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xff247CFF),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    const Spacer(
+                                      flex: 1,
+                                    ),
+                                    Text(
+                                      "${DateTime.parse(allData[index]['createdAt'].toString()).day}/${DateTime.parse(allData[index]['createdAt'].toString()).month}/${DateTime.parse(allData[index]['createdAt'].toString()).year}",
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ]),
+                            )),
+                      ))),
+        ),
       ),
     );
   }
